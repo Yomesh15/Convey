@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom"
 import StartAnimation from './pages/StartAnimation'
 import Login from './pages/Login'
 import Home from './pages/Home'
-import Protect from "./protect/Protect";
+import Protect from "./protect/protect";
 import Register from './pages/Register'
 import FillOTP from './pages/FillOTP'
 
