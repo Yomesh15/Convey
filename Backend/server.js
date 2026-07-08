@@ -18,7 +18,7 @@ connectDatabase()
 
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://convey-lime.vercel.app",
     credentials: true,
 }));
 
