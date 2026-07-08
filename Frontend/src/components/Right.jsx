@@ -57,7 +57,7 @@ const Right = ({ selectedUser }) => {
   const getMessages = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:2006/message/${selectedUser._id}`,
+        `${import.meta.env.VITE_BASE_URL}/message/${selectedUser._id}`,
         {
           withCredentials: true,
         }
@@ -74,7 +74,7 @@ const Right = ({ selectedUser }) => {
 
     try {
       await axios.post(
-        `http://localhost:2006/message/send/${selectedUser._id}`,
+        `${import.meta.env.VITE_BASE_URL}/message/send/${selectedUser._id}`,
         {
           message: text,
         },

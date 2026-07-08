@@ -6,7 +6,7 @@ const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext);
 
-const socket = io("http://localhost:2006", {
+const socket = io(`${import.meta.env.VITE_BASE_URL}`, {
   autoConnect: false,
   withCredentials: true,
 });

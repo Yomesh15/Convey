@@ -27,7 +27,7 @@ const Left = ({
   const getUsers = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:2006/user/all-users",
+        `${import.meta.env.VITE_BASE_URL}/user/all-users`,
         {
           withCredentials: true,
         }
