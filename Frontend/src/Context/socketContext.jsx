@@ -15,8 +15,7 @@ export const SocketProvider = ({ children }) => {
   const { authUser } = useAuth();
 
   const [onlineUsers, setOnlineUsers] = useState([]);
-
-  // Notification users (red dot)
+ 
   const [notificationUsers, setNotificationUsers] = useState([]);
 
   useEffect(() => {
