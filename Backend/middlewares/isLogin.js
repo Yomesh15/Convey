@@ -6,11 +6,11 @@ const isLogin = async (req, res, next) => {
         const token = req.cookies.jwt;
 
         if (!token) {
-            return res.status(500).json({ message: "Unauthorized", success: false })
+            return res.status(401).json({ message: "Unauthorized", success: false })
         }
 
         const decode = jwt.verify(token, process.env.JWT_SECRET)
-        
+
         if (!decode) {
             return res.status(500).json({ message: "Invalid Token", success: false })
         }
@@ -26,7 +26,11 @@ const isLogin = async (req, res, next) => {
         next()
 
     } catch (error) {
-        return res.status(500).json({ message: "Internal Server Error", success: false })
+        console.log(error);
+        return res.status(500).json({
+            message: error.message,
+            success: false
+        })
     }
 }
 
