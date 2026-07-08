@@ -1,4 +1,7 @@
+
 import dotenv from "dotenv"
+import http from "http";
+import { initSocket } from "./socket/socket.js";
 import express from "express"
 import connectDatabase from "./Database/db.js"
 import cookieParser from "cookie-parser";
@@ -14,8 +17,13 @@ const app = express()
 connectDatabase()
 
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}));
+
+
 //middlewaee
-app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
 
@@ -26,13 +34,19 @@ app.use("/message", MessageRoute)
 
 
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("Convey ")
 })
 
 
 const PORT = process.env.PORT || 2005
 
-app.listen(PORT, () => {
+const server = http.createServer(app);
+
+initSocket(server);
+
+server.listen(PORT, () => {
+
     console.log(`Server : http://localhost:${PORT}`);
-})
+
+});

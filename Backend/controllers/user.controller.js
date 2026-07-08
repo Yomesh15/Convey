@@ -80,3 +80,26 @@ export const LoginUser = async (req, res) => {
 }
 
 
+
+// get all users
+export const GetUsers = async (req, res) => {
+    try {
+        const loggedInUser = req.user._id;
+
+        const users = await UserModel.find({
+            _id: { $ne: loggedInUser }
+        }).select("-password");
+
+        res.status(200).json({
+            success: true,
+            users
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
+};

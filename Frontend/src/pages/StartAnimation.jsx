@@ -23,7 +23,7 @@ const StartAnimation = () => {
         transition={{ duration: 2 }}
       />
 
-      <div className="relative flex items-center">
+      <div className="relative flex items-center pb-26">
  
         <motion.h1
           initial={{

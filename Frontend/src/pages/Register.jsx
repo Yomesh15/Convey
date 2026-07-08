@@ -45,13 +45,15 @@ const Register = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:2006/user/register",
+                `${import.meta.env.VITE_BASE_URL}/user/register`,
                 form
             );
 
             if (res.data.success) {
                 toast.success("Registered Successfully!");
+                window.scrollTo({ top: 0, behavior: 'smooth' })
                 navigate("/login");
+                window.scrollTo({ top: 0, behavior: 'smooth' })
             }
         } catch (error) {
             toast.error(
@@ -102,8 +104,8 @@ const Register = () => {
                             onChange={handleChange}
                             required
                             ref={fullnameref}
-                            onKeyDown={(e)=>{
-                                if(e.key === "Enter"){
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
                                     e.preventDefault()
                                     emailref.current.focus()
                                 }
@@ -126,8 +128,8 @@ const Register = () => {
                             onChange={handleChange}
                             required
                             ref={emailref}
-                            onKeyDown={(e)=>{
-                                if(e.key === "Enter"){
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
                                     e.preventDefault()
                                     passwordref.current.focus()
                                 }
@@ -150,8 +152,8 @@ const Register = () => {
                             onChange={handleChange}
                             required
                             ref={passwordref}
-                            onKeyDown={(e)=>{
-                                if(e.key === "Enter"){
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
                                     e.preventDefault()
                                     profileref.current.focus()
                                 }
@@ -181,8 +183,8 @@ const Register = () => {
                             value={form.profile}
                             onChange={handleChange}
                             ref={profileref}
-                            onKeyDown={(e)=>{
-                                if(e.key === "Enter"){
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
                                     handleSubmit()
                                 }
                             }}
@@ -223,6 +225,9 @@ const Register = () => {
                     Already have an account?{" "}
                     <Link
                         to="/login"
+                        onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+                        }}
                         className="font-semibold text-blue-400 transition hover:text-cyan-400"
                     >
                         Login

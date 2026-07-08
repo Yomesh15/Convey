@@ -10,10 +10,13 @@ import {
   EyeOff,
 } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
+import { useAuth } from "../Context/authContext";
 
 const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const { setAuthUser } = useAuth()
 
   const navigate = useNavigate();
 
@@ -39,14 +42,22 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:2006/user/login",
-        form
+        `${import.meta.env.VITE_BASE_URL}/user/login`,
+        form,
+        {
+          withCredentials: true,
+        }
       );
 
       if (res.data.success) {
+        setAuthUser(res.data.user)
+        localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("token", res.data.token);
+
         toast.success(res.data.message);
+        window.scrollTo({ top: 0, behavior: 'smooth' })
         navigate("/home");
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     } catch (error) {
       toast.error(
@@ -117,8 +128,8 @@ const Login = () => {
               placeholder="Password"
               value={form.password}
               onChange={handleChange}
-              onKeyDown={(e)=>{
-                if(e.key === "Enter"){
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
                   handleSubmit()
                 }
               }}
@@ -167,6 +178,9 @@ const Login = () => {
           Don't have an account?{" "}
           <Link
             to="/register"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
             className="font-semibold text-blue-400 hover:text-cyan-400"
           >
             Create Account
