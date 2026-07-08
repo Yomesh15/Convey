@@ -3,6 +3,7 @@ import UserModel from "../models/user.model.js"
 
 const isLogin = async (req, res, next) => {
     try {
+        console.log("COOKIES:", req.cookies);
         const token = req.cookies.jwt;
 
         if (!token) {
