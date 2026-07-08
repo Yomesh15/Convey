@@ -83,6 +83,9 @@ export const LoginUser = async (req, res) => {
 // get all users
 export const GetUsers = async (req, res) => {
     try {
+
+        console.log("REQ USER:", req.user);
+
         const loggedInUser = req.user._id;
 
         const users = await UserModel.find({
@@ -95,10 +98,12 @@ export const GetUsers = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+
+        console.log("GET USERS ERROR:", error);
+
         res.status(500).json({
             success: false,
-            message: "Internal Server Error"
+            message: error.message
         });
     }
 };
