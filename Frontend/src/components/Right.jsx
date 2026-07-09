@@ -107,9 +107,9 @@ const Right = ({ selectedUser }) => {
   return (
     <div className="flex h-screen flex-col bg-[#030712]">
 
-      <div className="sticky top-0 z-20 flex items-center justify-between border-b border-white/10 bg-[#111827] px-3 md:px-6 py-4">
+      <div className="absolute top-0 z-20 flex items-center justify-between border-b border-white/10 bg-[#111827] px-3 md:px-6 py-4">
       
-        {/* <div className="flex items-center gap-3 flex-1 min-w-0 ">
+        <div className="flex items-center gap-3 flex-1 min-w-0 relative top-0">
 
           <img
             src={
@@ -129,9 +129,9 @@ const Right = ({ selectedUser }) => {
             </p>
           </div>
 
-        </div> */}
+        </div>
 
-        {/* <div className="flex gap-4"> */}
+        <div className="flex gap-4">
 
           {/* <button className="rounded-xl bg-[#1f2937] p-2">
             <Phone className="text-white" size={20} />
@@ -141,12 +141,12 @@ const Right = ({ selectedUser }) => {
             <Video className="text-white" size={20} />
           </button> */}
 
-          {/* <button className="rounded-xl bg-[#2e3947] text-gray-300 px-2 py-2 text-xs md:text-sm whitespace-nowrap">
+          <button className="rounded-xl bg-[#2e3947] text-gray-300 px-2 py-2 text-xs md:text-sm whitespace-nowrap">
             <span className="hidden sm:inline">Developer Yomesh</span>
             <span className="sm:hidden">Dev</span>
-          </button> */}
+          </button>
 
-        {/* </div> */}
+        </div>
 
       </div>
 
