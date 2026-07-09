@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 import OtpModel from "../models/otp.model.js";
 import sendOtpMail from "../utils/sendOtpMail.js";
+import transporter from "../config/nodemailer.js";
 
 
 // for registter
