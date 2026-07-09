@@ -10,7 +10,7 @@ const Protect = ({ children }) => {
     const checkAuth = async () => {
       try {
         await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/auth/check`,
+          `${import.meta.env.VITE_BASE_URL}/user/auth/check`,
           {
             withCredentials: true,
           }
