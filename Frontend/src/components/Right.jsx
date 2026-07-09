@@ -107,9 +107,9 @@ const Right = ({ selectedUser }) => {
   return (
     <div className="flex h-screen flex-col bg-[#030712]">
 
-      <div className="flex items-center justify-between border-b border-white/10 bg-[#111827] px-6 py-4">
+      <div className="flex items-center justify-between border-b border-white/10 bg-[#111827] px-3 md:px-6 py-4">
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
 
           <img
             src={
@@ -119,16 +119,14 @@ const Right = ({ selectedUser }) => {
             className="h-12 w-12 rounded-full object-cover"
           />
 
-          <div>
-
-            <h2 className="text-lg font-semibold text-white">
+          <div className="min-w-0">
+            <h2 className="text-base md:text-lg font-semibold text-white truncate">
               {selectedUser.fullname}
             </h2>
 
-            <p className="text-sm text-gray-400">
+            <p className="text-xs md:text-sm text-gray-400 truncate">
               {selectedUser.email}
             </p>
-
           </div>
 
         </div>
@@ -143,9 +141,9 @@ const Right = ({ selectedUser }) => {
             <Video className="text-white" size={20} />
           </button> */}
 
-          <button className="rounded-xl cursor-pointer bg-[#2e3947] text-gray-300 p-2">
-            {/* <MoreVertical className="text-white" size={20} /> */}
-            <i>Developer Yomesh </i>
+          <button className="rounded-xl bg-[#2e3947] text-gray-300 px-2 py-2 text-xs md:text-sm whitespace-nowrap">
+            <span className="hidden sm:inline">Developer Yomesh</span>
+            <span className="sm:hidden">Dev</span>
           </button>
 
         </div>
