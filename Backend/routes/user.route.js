@@ -11,7 +11,7 @@ user_router.post("/login", LoginUser)
 
 user_router.get("/all-users", isLogin, GetUsers);
 
-router.get("/auth/check", isLogin, (req, res) => {
+user_router.get("/auth/check", isLogin, (req, res) => {
     res.status(200).json({
         success: true,
     });

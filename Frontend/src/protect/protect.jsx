@@ -18,6 +18,8 @@ const Protect = ({ children }) => {
 
         setIsAuth(true);
       } catch (err) {
+        console.log(err.response?.status);
+        console.log(err.response?.data);
         setIsAuth(false);
       } finally {
         setLoading(false);
