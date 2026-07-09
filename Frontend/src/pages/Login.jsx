@@ -12,6 +12,7 @@ import {
 import { FaGoogle } from "react-icons/fa";
 import { useAuth } from "../Context/authContext";
 
+
 const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -130,7 +131,7 @@ const Login = () => {
               onChange={handleChange}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  handleSubmit()
+                  handleSubmit(e)
                 }
               }}
               required
