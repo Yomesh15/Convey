@@ -188,11 +188,11 @@ const Register = () => {
                             value={form.profile}
                             onChange={handleChange}
                             ref={profileref}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    handleSubmit()
-                                }
-                            }}
+                            // onKeyDown={(e) => {
+                            //     if (e.key === "Enter") {
+                            //         handleSubmit(e)
+                            //     }
+                            // }}
                             className="w-full rounded-xl border border-gray-700 bg-[#111827]/80 py-4 pl-12 pr-4 text-white placeholder:text-gray-500 outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20"
                         />
                     </div>
