@@ -96,7 +96,7 @@ const Right = ({ selectedUser }) => {
     return (
       <div className="flex h-screen items-center justify-center bg-[#030712]">
         <h1 className="text-3xl text-gray-500">
-          Select a user to start chatting
+          <i>Convey Always With You ❤️</i>
         </h1>
       </div>
     );
@@ -133,16 +133,17 @@ const Right = ({ selectedUser }) => {
 
         <div className="flex gap-4">
 
-          <button className="rounded-xl bg-[#1f2937] p-2">
+          {/* <button className="rounded-xl bg-[#1f2937] p-2">
             <Phone className="text-white" size={20} />
           </button>
 
           <button className="rounded-xl bg-[#1f2937] p-2">
             <Video className="text-white" size={20} />
-          </button>
+          </button> */}
 
-          <button className="rounded-xl bg-[#1f2937] p-2">
-            <MoreVertical className="text-white" size={20} />
+          <button className="rounded-xl cursor-pointer bg-[#2e3947] text-gray-300 p-2">
+            {/* <MoreVertical className="text-white" size={20} /> */}
+            <i>Developer Yomesh </i>
           </button>
 
         </div>

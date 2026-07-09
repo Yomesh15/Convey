@@ -112,57 +112,48 @@ const Left = ({
 
       <div className="flex-1 overflow-y-auto">
 
-        {filteredUsers.map((user) => (
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => (
+            <div
+              key={user._id}
+              onClick={() => openChat(user)}
+              className={`flex cursor-pointer items-center justify-between px-5 py-4 transition
+        ${selectedUser?._id === user._id
+                  ? "bg-[#1e40af]"
+                  : "hover:bg-[#111827]"
+                }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <img
+                    src={
+                      user.profile ||
+                      `https://ui-avatars.com/api/?name=${user.fullname}`
+                    }
+                    className="h-14 w-14 rounded-full object-cover"
+                  />
 
-          <div
-            key={user._id}
-            onClick={() => openChat(user)}
-            className={`flex cursor-pointer items-center justify-between px-5 py-4 transition
-              ${selectedUser?._id === user._id
-                ? "bg-[#1e40af]"
-                : "hover:bg-[#111827]"
-              }`}
-          >
+                  {onlineUsers.includes(user._id) && (
+                    <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#030712] bg-green-500"></span>
+                  )}
+                </div>
 
-            <div className="flex items-center gap-3">
-
-              <div className="relative">
-
-                <img
-                  src={
-                    user.profile ||
-                    `https://ui-avatars.com/api/?name=${user.fullname}`
-                  }
-                  className="h-14 w-14 rounded-full object-cover"
-                />
-
-                {onlineUsers.includes(user._id) && (
-                  <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#030712] bg-green-500"></span>
-                )}
-
+                <div>
+                  <h2 className="font-semibold text-white">{user.fullname}</h2>
+                  <p className="text-sm text-gray-400">{user.email}</p>
+                </div>
               </div>
 
-              <div>
-
-                <h2 className="font-semibold text-white">
-                  {user.fullname}
-                </h2>
-
-                <p className="text-sm text-gray-400">
-                  {user.email}
-                </p>
-
-              </div>
-
+              {notificationUsers.includes(user._id) && (
+                <div className="h-3 w-3 rounded-full bg-red-500"></div>
+              )}
             </div>
-
-            {notificationUsers.includes(user._id) && (
-              <div className="h-3 w-3 rounded-full bg-red-500"></div>
-            )}
-
+          ))
+        ) : (
+          <div className="flex h-full items-center justify-center text-gray-400 font-medium">
+            No User Found
           </div>
-
-        ))}
+        )}
 
       </div>
 
