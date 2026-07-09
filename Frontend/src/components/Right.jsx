@@ -8,8 +8,10 @@ import {
   Smile,
 } from "lucide-react";
 import { useSocket } from "../Context/socketContext";
+import EmojiPicker from "emoji-picker-react";
 
 const Right = ({ selectedUser }) => {
+  const [showEmoji, setShowEmoji] = useState(false);
   const [messages, setMessages] = useState([]);
   const bottomRef = useRef(null);
   const [text, setText] = useState("");
@@ -18,30 +20,30 @@ const Right = ({ selectedUser }) => {
 
 
   useEffect(() => {
-  if (!socket) return;
+    if (!socket) return;
 
-  socket.on("newMessage", (message) => { 
-    if (selectedUser && message.senderId === selectedUser._id) {
-      setMessages((prev) => [...prev, message]);
-    }
-  });
+    socket.on("newMessage", (message) => {
+      if (selectedUser && message.senderId === selectedUser._id) {
+        setMessages((prev) => [...prev, message]);
+      }
+    });
 
-  return () => {
-    socket.off("newMessage");
-  };
-}, [socket, selectedUser]);
+    return () => {
+      socket.off("newMessage");
+    };
+  }, [socket, selectedUser]);
 
 
 
   useEffect(() => {
     if (!selectedUser) return;
- 
-    getMessages(); 
-    
+
+    getMessages();
+
     const interval = setInterval(() => {
       getMessages();
     }, 3000);
- 
+
     return () => clearInterval(interval);
 
   }, [selectedUser]);
@@ -104,7 +106,7 @@ const Right = ({ selectedUser }) => {
 
   return (
     <div className="flex h-screen flex-col bg-[#030712]">
- 
+
       <div className="flex items-center justify-between border-b border-white/10 bg-[#111827] px-6 py-4">
 
         <div className="flex items-center gap-4">
@@ -149,7 +151,7 @@ const Right = ({ selectedUser }) => {
         </div>
 
       </div>
- 
+
       <div className="flex-1 overflow-y-auto p-6">
 
         <div className="space-y-4">
@@ -196,9 +198,26 @@ const Right = ({ selectedUser }) => {
 
         <div className="flex items-center gap-4">
 
-          <button className="text-gray-400">
+          <button
+            type="button"
+            onClick={() => setShowEmoji((prev) => !prev)}
+            className="text-gray-400"
+          >
             <Smile size={24} />
           </button>
+
+          <div className="relative">
+            {showEmoji && (
+              <div className="absolute bottom-14 left-0 z-50">
+                <EmojiPicker
+                  onEmojiClick={(emojiData) => {
+                    setText((prev) => prev + emojiData.emoji);
+                    setShowEmoji(false);
+                  }}
+                />
+              </div>
+            )}
+          </div>
 
           <input
             value={text}
