@@ -7,6 +7,7 @@ import sendOtpMail from "../utils/sendOtpMail.js";
 
 // for registter
 export const RegisterUser = async (req, res) => {
+    
     try {
 
         const { fullname, email, password, profile } = req.body;
@@ -25,31 +26,32 @@ export const RegisterUser = async (req, res) => {
             });
         }
  
-        const userExists = await UserModel.findOne({ email });
+       console.log("1. Register API Hit");
 
-        if (userExists) {
-            return res.status(409).json({
-                message: "User already exists",
-                success: false,
-            });
-        }
- 
-        const otp = Math.floor(1000 + Math.random() * 9000).toString();
- 
-        const hashedPassword = await bcrypt.hash(password, 11);
- 
-        await OtpModel.deleteOne({ email });
- 
-        await OtpModel.create({
-            fullname,
-            email,
-            password: hashedPassword,
-            profile,
-            otp,
-            otpExpiry: new Date(Date.now() + 5 * 60 * 1000),  
-        });
- 
-        await sendOtpMail(email, fullname, otp);
+const userExists = await UserModel.findOne({ email });
+console.log("2. User checked");
+
+const otp = Math.floor(1000 + Math.random() * 9000).toString();
+console.log("3. OTP Generated");
+
+const hashedPassword = await bcrypt.hash(password, 11);
+console.log("4. Password Hashed");
+
+await OtpModel.deleteOne({ email });
+console.log("5. Old OTP Deleted");
+
+await OtpModel.create({
+    fullname,
+    email,
+    password: hashedPassword,
+    profile,
+    otp,
+    otpExpiry: new Date(Date.now() + 5 * 60 * 1000),
+});
+console.log("6. OTP Saved");
+
+await sendOtpMail(email, fullname, otp);
+console.log("7. Email Sent");
 
         return res.status(200).json({
             success: true,
