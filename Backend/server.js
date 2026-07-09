@@ -17,10 +17,15 @@ const app = express()
 connectDatabase()
 
 
-app.use(cors({
-    origin: "https://convey-lime.vercel.app",
+app.use(
+  cors({
+    origin: [
+      "https://convey-lime.vercel.app",
+      "http://localhost:5173",
+    ],
     credentials: true,
-}));
+  })
+);
 
 
 //middlewaee
