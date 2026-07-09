@@ -68,7 +68,8 @@ export const LoginUser = async (req, res) => {
         res.cookie("jwt", token, {
             httpOnly: true,
             secure: true,
-            sameSite: "none"
+            sameSite: "None",
+            maxAge: 3 * 24 * 60 * 60 * 1000,
         });
 
         return res.status(200).json({ message: `Welcome ${userexists.fullname}`, success: true, token, user: userexists })
