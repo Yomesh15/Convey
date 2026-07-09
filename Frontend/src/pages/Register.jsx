@@ -51,7 +51,7 @@ const Register = () => {
 
             if (res.data.success) {
                 toast.success(res.data.message);
- 
+
                 localStorage.setItem("verifyEmail", form.email);
 
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -70,7 +70,7 @@ const Register = () => {
     };
 
     return (
-        <div className="relative min-h-screen overflow-hidden  bg-[#030712] flex items-center justify-center px-5 py-10">
+        <div className="relative min-h-screen overflow-hidden bg-[#030712] flex items-center justify-center px-5 py-10">
 
             <div className="absolute -top-40 -left-40 h-[420px] w-[420px] rounded-full bg-blue-600/20 blur-[140px]" />
             <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-cyan-500/20 blur-[140px]" />
@@ -190,7 +190,7 @@ const Register = () => {
                             ref={profileref}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
-                                    handleSubmit(e)
+                                    handleSubmit()
                                 }
                             }}
                             className="w-full rounded-xl border border-gray-700 bg-[#111827]/80 py-4 pl-12 pr-4 text-white placeholder:text-gray-500 outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20"
