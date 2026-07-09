@@ -6,7 +6,7 @@ const Home = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
-    <div className="h-screen overflow-hidden bg-[#030712]">
+    <div className="h-dvh overflow-hidden bg-[#030712]">
       
       <div className="hidden md:flex h-full">
         <div className="w-[30%] border-r border-gray-800">
