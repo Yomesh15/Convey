@@ -2,8 +2,7 @@ import transporter from "../config/nodemailer.js";
 
 const sendOtpMail = async (email, fullname, otp) => {
     try {
-      
-        await transporter.sendMail({
+        await resend.emails.send({
             from: `"Convey Team" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: "Verify Your Convey Account",
