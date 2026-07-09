@@ -1,41 +1,168 @@
 import UserModel from "../models/user.model.js";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
+import OtpModel from "../models/otp.model.js";
+import sendOtpMail from "../utils/sendOtpMail.js";
 
 
-//for reggister
+// for registter
 export const RegisterUser = async (req, res) => {
     try {
-        const { fullname, email, password, profile } = req.body
+
+        const { fullname, email, password, profile } = req.body;
 
         if (!fullname || !email || !password) {
-            return res.status(401).json({ message: "All Fields are Required ", success: false })
+            return res.status(400).json({
+                message: "All Fields are Required",
+                success: false,
+            });
         }
 
         if (password.length < 6) {
-            return res.status(400).json({ message: "Password Must be at Least 6 ", success: false })
+            return res.status(400).json({
+                message: "Password must be at least 6 characters",
+                success: false,
+            });
         }
+ 
+        const userExists = await UserModel.findOne({ email });
 
-        const exists = await UserModel.findOne({ email })
-
-        if (exists) {
-            return res.status(409).json({ message: "User Already Exist ", success: false })
+        if (userExists) {
+            return res.status(409).json({
+                message: "User already exists",
+                success: false,
+            });
         }
+ 
+        const otp = Math.floor(1000 + Math.random() * 9000).toString();
+ 
+        const hashedPassword = await bcrypt.hash(password, 11);
+ 
+        await OtpModel.deleteOne({ email });
+ 
+        await OtpModel.create({
+            fullname,
+            email,
+            password: hashedPassword,
+            profile,
+            otp,
+            otpExpiry: new Date(Date.now() + 5 * 60 * 1000),  
+        });
+ 
+        await sendOtpMail(email, fullname, otp);
 
-        const hashpassword = await bcrypt.hash(password, 11)
-
-        await UserModel.create({
-            fullname, email, password: hashpassword, profile
-        })
-
-        return res.status(201).json({ message: "Registered Successfully ", success: true })
+        return res.status(200).json({
+            success: true,
+            message: "OTP Sent Successfully to Your Mail",
+        });
 
     } catch (error) {
+
         console.log(error);
 
-        return res.status(500).json({ message: "Internal Server Error ", success: false })
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
     }
-}
+};
+
+
+//verify otp
+export const VerifyOtp = async (req, res) => {
+    try {
+
+        const { email, otp } = req.body;
+
+        if (!email || !otp) {
+            return res.status(400).json({
+                message: "Email and OTP are required",
+                success: false
+            });
+        }
+
+
+        // Find OTP data
+        const otpData = await OtpModel.findOne({ email });
+
+        if (!otpData) {
+            return res.status(400).json({
+                message: "OTP not found or expired",
+                success: false
+            });
+        }
+
+
+        // Check OTP expiry
+        if (otpData.otpExpiry < Date.now()) {
+            await OtpModel.deleteOne({ email });
+
+            return res.status(400).json({
+                message: "OTP expired",
+                success: false
+            });
+        }
+
+
+        // Check OTP
+        if (otpData.otp !== otp) {
+            return res.status(401).json({
+                message: "Invalid OTP",
+                success: false
+            });
+        }
+
+
+        // Create User after verification
+        const user = await UserModel.create({
+            fullname: otpData.fullname,
+            email: otpData.email,
+            password: otpData.password,
+            profile: otpData.profile
+        });
+
+
+        // Delete temporary OTP data
+        await OtpModel.deleteOne({ email });
+
+
+        // Generate JWT
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "3d"
+            }
+        );
+
+
+        // Store cookie
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+            maxAge: 3 * 24 * 60 * 60 * 1000,
+        });
+
+
+        return res.status(201).json({
+            message: "Email verified and Account Created successfully",
+            success: true,
+            user
+        });
+
+
+    } catch (error) {
+
+        console.log("VERIFY OTP ERROR:", error);
+
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false
+        });
+    }
+};
+
 
 
 //for login

@@ -1,8 +1,14 @@
-import React, { useRef } from "react";
-import { MessageCircle, ShieldCheck } from "lucide-react";
+import React, { useRef, useState } from "react";
+import { ShieldCheck } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const FillOTP = () => {
+  const navigate = useNavigate();
+
   const inputs = useRef([]);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -20,20 +26,52 @@ const FillOTP = () => {
     }
   };
 
+  const verifyOtp = async () => {
+    const otp = inputs.current.map((input) => input.value).join("");
+
+    if (otp.length !== 4) {
+      return toast.error("Enter complete OTP");
+    }
+
+    const email = localStorage.getItem("verifyEmail");
+
+    try {
+      setLoading(true);
+
+      const res = await axios.post(
+        "http://localhost:2006/user/verify-otp",
+        {
+          email,
+          otp,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+
+        localStorage.removeItem("verifyEmail");
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data.user)
+        );
+
+        navigate("/home");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#030712] px-5">
 
-      <div className="absolute -top-40 -left-40 h-[420px] w-[420px] rounded-full bg-blue-600/20 blur-[140px]" />
-      <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-cyan-500/20 blur-[140px]" />
-      <div className="absolute left-1/2 top-1/2 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-600/10 blur-[100px]" />
-
-      <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,.45)]">
-
-        <div className="flex justify-center">
-          {/* <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 shadow-lg shadow-blue-500/40">
-            <MessageCircle size={30} className="text-white" />
-          </div> */}
-        </div>
+      <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-2xl">
 
         <div className="mt-6 flex justify-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-600/20">
@@ -54,27 +92,23 @@ const FillOTP = () => {
             <input
               key={item}
               ref={(el) => (inputs.current[item] = el)}
+              maxLength={1}
               type="text"
               inputMode="numeric"
-              maxLength={1}
               onChange={(e) => handleChange(e, item)}
               onKeyDown={(e) => handleKeyDown(e, item)}
-              className="h-16 w-16 rounded-2xl border border-gray-700 bg-[#111827]/80 text-center text-2xl font-bold text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20"
+              className="h-16 w-16 rounded-2xl border border-gray-700 bg-[#111827]/80 text-center text-2xl font-bold text-white outline-none focus:border-blue-500"
             />
           ))}
         </div>
 
-        <button className="mt-10 w-full cursor-pointer rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 py-4 text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_35px_rgba(59,130,246,.45)]">
-          Verify OTP
+        <button
+          onClick={verifyOtp}
+          disabled={loading}
+          className="mt-10 w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-4 text-lg font-semibold text-white"
+        >
+          {loading ? "Verifying..." : "Verify OTP"}
         </button>
-
-        <p className="mt-6 text-center text-sm text-gray-400">
-          Didn't receive the code?
-          <button className="ml-2 font-semibold text-blue-400 transition hover:text-cyan-400 cursor-pointer">
-            Resend OTP
-          </button>
-        </p>
-
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-
 import dotenv from "dotenv"
+dotenv.config()
+
 import http from "http";
 import { initSocket } from "./socket/socket.js";
 import express from "express"
@@ -8,8 +9,8 @@ import cookieParser from "cookie-parser";
 import UserRoute from "./routes/user.route.js"
 import MessageRoute from "./routes/message.route.js"
 import cors from "cors"
+import sendOtpMail from "./utils/sendOtpMail.js";
 
-dotenv.config()
 
 const app = express()
 

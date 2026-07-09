@@ -50,10 +50,15 @@ const Register = () => {
             );
 
             if (res.data.success) {
-                toast.success("Registered Successfully!");
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-                navigate("/login");
-                window.scrollTo({ top: 0, behavior: 'smooth' })
+                toast.success(res.data.message);
+ 
+                localStorage.setItem("verifyEmail", form.email);
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+                navigate("/otp");
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
             }
         } catch (error) {
             toast.error(

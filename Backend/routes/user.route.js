@@ -1,5 +1,5 @@
 import express from "express"
-import { GetUsers, LoginUser, RegisterUser } from "../controllers/user.controller.js"
+import { GetUsers, LoginUser, RegisterUser, VerifyOtp } from "../controllers/user.controller.js"
 import isLogin from "../middlewares/isLogin.js"
 
 const user_router = express.Router()
@@ -16,6 +16,8 @@ user_router.get("/auth/check", isLogin, (req, res) => {
         success: true,
     });
 });
+
+user_router.post("/verify-otp", VerifyOtp);
 
 
 export default user_router
