@@ -16,6 +16,7 @@ const app = express()
 // connect Daatabase
 connectDatabase()
 
+app.set("trust proxy", 1);
 
 app.use(
   cors({
