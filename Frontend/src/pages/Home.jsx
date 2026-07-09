@@ -6,8 +6,8 @@ const Home = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
-    <div className="h-screen bg-[#030712]">
- 
+    <div className="h-screen overflow-hidden bg-[#030712]">
+      
       <div className="hidden md:flex h-full">
         <div className="w-[30%] border-r border-gray-800">
           <Left
@@ -20,7 +20,7 @@ const Home = () => {
           <Right selectedUser={selectedUser} />
         </div>
       </div>
- 
+
       <div className="md:hidden h-full">
         {!selectedUser ? (
           <Left

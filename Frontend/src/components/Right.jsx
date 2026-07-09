@@ -194,7 +194,7 @@ const Right = ({ selectedUser }) => {
 
       <div className="border-t border-white/10 bg-[#111827] p-5">
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 w-full">
 
           <button
             type="button"
@@ -227,7 +227,7 @@ const Right = ({ selectedUser }) => {
             }}
             type="text"
             placeholder="Type a message..."
-            className="flex-1 rounded-xl border border-gray-700 bg-[#1f2937] px-4 py-3 text-white outline-none"
+            className="flex-1 min-w-0 rounded-xl border border-gray-700 bg-[#1f2937] px-4 py-3 text-white outline-none"
           />
 
           <button
