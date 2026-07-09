@@ -8,7 +8,7 @@ const initSocket = (server) => {
   io = new Server(server, {
     cors: {
       origin: [
-        "https://convey-lime.vercel.app",
+        "https://convey-sigma.vercel.app",
         "http://localhost:5173",
       ],
       credentials: true,
