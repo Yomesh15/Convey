@@ -107,7 +107,7 @@ const Right = ({ selectedUser }) => {
   return (
     <div className="flex h-screen flex-col bg-[#030712]">
 
-      <div className="absolute top-0 z-20 flex items-center justify-between border-b border-white/10 bg-[#111827] px-3 md:px-6 py-4">
+      <div className=" z-20 flex items-center justify-between border-b border-white/10 bg-[#111827] px-3 md:px-6 py-4">
       
         <div className="flex items-center gap-3 flex-1 min-w-0 relative top-0">
 
