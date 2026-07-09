@@ -19,15 +19,11 @@ connectDatabase()
 
 app.set("trust proxy", 1);
 
-app.use(
-  cors({
-    origin: [
-      "https://convey-sigma.vercel.app",
-      "http://localhost:5173",
-    ],
-    credentials: true,
-  })
-);
+
+app.use(cors({
+  origin: true,
+  credentials: true,
+}));
 
 
 //middlewaee
