@@ -48,6 +48,8 @@ export const RegisterUser = async (req, res) => {
             otp,
             otpExpiry: new Date(Date.now() + 5 * 60 * 1000),  
         });
+
+        console.log("before")
  
         await sendOtpMail(email, fullname, otp);
 
