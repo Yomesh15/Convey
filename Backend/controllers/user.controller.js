@@ -24,7 +24,7 @@ export const RegisterUser = async (req, res) => {
                 success: false,
             });
         }
- 
+
         const userExists = await UserModel.findOne({ email });
 
         if (userExists) {
@@ -33,24 +33,24 @@ export const RegisterUser = async (req, res) => {
                 success: false,
             });
         }
- 
+
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
- 
+
         const hashedPassword = await bcrypt.hash(password, 11);
- 
+
         await OtpModel.deleteOne({ email });
- 
+
         await OtpModel.create({
             fullname,
             email,
             password: hashedPassword,
             profile,
             otp,
-            otpExpiry: new Date(Date.now() + 5 * 60 * 1000),  
+            otpExpiry: new Date(Date.now() + 5 * 60 * 1000),
         });
 
         console.log("before")
- 
+
         await sendOtpMail(email, fullname, otp);
 
         return res.status(200).json({
@@ -107,7 +107,7 @@ export const VerifyOtp = async (req, res) => {
 
 
         // Check OTP
-        if (otpData.otp !== otp) {
+        if (otpData.otp.toString() !== otp.toString()) {
             return res.status(401).json({
                 message: "Invalid OTP",
                 success: false

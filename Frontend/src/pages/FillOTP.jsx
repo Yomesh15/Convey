@@ -39,7 +39,7 @@ const FillOTP = () => {
       setLoading(true);
 
       const res = await axios.post(
-        "http://localhost:2006/user/verify-otp",
+        `${import.meta.env.VITE_BASE_URL}/user/verify-otp`,
         {
           email,
           otp,
