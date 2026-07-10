@@ -1,8 +1,5 @@
 import dotenv from "dotenv"
 dotenv.config()
-console.log("EMAIL:", process.env.EMAIL_USER);
-console.log("PASSWORD:", process.env.EMAIL_PASS ? "Exists" : "Missing");
-
 import http from "http";
 import { initSocket } from "./socket/socket.js";
 import express from "express"
