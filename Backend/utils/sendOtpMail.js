@@ -1,14 +1,9 @@
-import transporter from "../config/nodemailer.js";
+import axios from "axios";
 
 const sendOtpMail = async (email, fullname, otp) => {
-  try {
-    await transporter.sendMail({
-      from: `"Convey Team" <${process.env.EMAIL_FROM}>`,
-      to: email,
-      subject: "Verify Your Convey Account",
 
-      html: `
-      <div style="max-width:600px;margin:auto;font-family:Arial,sans-serif;background:#f4f4f4;padding:30px;">
+  const html = `
+<div style="max-width:600px;margin:auto;font-family:Arial,sans-serif;background:#f4f4f4;padding:30px;">
   <div style="background:#ffffff;border-radius:12px;padding:35px;text-align:center;">
 
     <h1 style="color:#2563eb;margin-bottom:10px;">
@@ -56,17 +51,46 @@ const sendOtpMail = async (email, fullname, otp) => {
 
   </div>
 </div>
-      `,
-    });
+`;
+
+  try {
+
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "Convey Team",
+          email: process.env.EMAIL_FROM,
+        },
+        to: [
+          {
+            email,
+          },
+        ],
+        subject: "Verify Your Convey Account",
+        htmlContent: html,
+      },
+      {
+        headers: {
+          "accept": "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     console.log("✅ OTP Email Sent");
+    console.log(response.data);
+
   } catch (error) {
 
-    console.error(error);
-    console.error(error.message);
-    console.error(error.stack);
+    console.log(
+      error.response?.data || error.message
+    );
+
     throw error;
   }
+
 };
 
 export default sendOtpMail;

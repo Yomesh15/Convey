@@ -3,7 +3,6 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 import OtpModel from "../models/otp.model.js";
 import sendOtpMail from "../utils/sendOtpMail.js";
-import transporter from "../config/nodemailer.js";
 
 
 // for registter
@@ -25,7 +24,7 @@ export const RegisterUser = async (req, res) => {
                 success: false,
             });
         }
-
+ 
         const userExists = await UserModel.findOne({ email });
 
         if (userExists) {
@@ -34,27 +33,24 @@ export const RegisterUser = async (req, res) => {
                 success: false,
             });
         }
-
+ 
         const otp = Math.floor(1000 + Math.random() * 9000).toString();
-
+ 
         const hashedPassword = await bcrypt.hash(password, 11);
-
+ 
         await OtpModel.deleteOne({ email });
-
+ 
         await OtpModel.create({
             fullname,
             email,
             password: hashedPassword,
             profile,
             otp,
-            otpExpiry: new Date(Date.now() + 5 * 60 * 1000),
+            otpExpiry: new Date(Date.now() + 5 * 60 * 1000),  
         });
 
-        await transporter.verify();
-        console.log("SMTP Connected");
-
         console.log("before")
-
+ 
         await sendOtpMail(email, fullname, otp);
 
         return res.status(200).json({
