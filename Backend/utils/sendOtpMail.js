@@ -1,13 +1,13 @@
 import transporter from "../config/nodemailer.js";
 
 const sendOtpMail = async (email, fullname, otp) => {
-    try {
-        await transporter.sendMail({
-            from: `"Convey Team" <${process.env.EMAIL_USER}>`,
-            to: email,
-            subject: "Verify Your Convey Account",
+  try {
+    await transporter.sendMail({
+      from: `"Convey Team" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "Verify Your Convey Account",
 
-            html: `
+      html: `
       <div style="max-width:600px;margin:auto;font-family:Arial,sans-serif;background:#f4f4f4;padding:30px;">
   <div style="background:#ffffff;border-radius:12px;padding:35px;text-align:center;">
 
@@ -57,13 +57,16 @@ const sendOtpMail = async (email, fullname, otp) => {
   </div>
 </div>
       `,
-        });
+    });
 
-        console.log("✅ OTP Email Sent");
-    } catch (error) {
-        console.log("❌ Email Error:", error);
-        throw error;
-    }
+    console.log("✅ OTP Email Sent");
+  } catch (error) {
+
+    console.error(error);
+    console.error(error.message);
+    console.error(error.stack);
+    throw error;
+  }
 };
 
 export default sendOtpMail;
